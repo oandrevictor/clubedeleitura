@@ -71,8 +71,8 @@ a {
 
 .title-block h1 {
   margin: 0;
-  font-size: clamp(2rem, 6vw, 5rem);
-  line-height: 0.96;
+  font-size: 1.2rem;
+  line-height: 1.2;
   letter-spacing: 0;
   max-width: 760px;
 }

@@ -74,7 +74,7 @@ function App() {
       <section className="reader-panel" aria-labelledby="app-title">
         <form className="url-bar" onSubmit={renderPage}>
           <div className="title-block">
-            <h1 id="app-title">clube de leitura em modo escuro</h1>
+            <h1 id="app-title">Clube de Leitura</h1>
             <p>App desenvolvido especialmente para o Clube de Leitura da Branca.</p>
           </div>
           <div className="url-row">
