@@ -9,6 +9,10 @@ function getInitialUrl() {
   return params.get("url") || "";
 }
 
+function getReaderPath(url) {
+  return `/render?url=${encodeURIComponent(url)}`;
+}
+
 function App() {
   const [url, setUrl] = useState(getInitialUrl);
   const [page, setPage] = useState(null);
@@ -56,7 +60,7 @@ function App() {
       }
 
       setPage(payload);
-      window.history.replaceState(null, "", `?url=${encodeURIComponent(trimmedUrl)}`);
+      window.history.replaceState(null, "", getReaderPath(trimmedUrl));
     } catch (requestError) {
       setPage(null);
       setError(requestError.message || "The page could not be rendered.");

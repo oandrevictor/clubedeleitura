@@ -35,3 +35,7 @@ Returns the extracted page title, site name, byline, source URL, excerpt, and sa
 ## Notes
 
 This app intentionally renders a reader view rather than embedding the original website. It works best for articles, documentation, essays, and text-heavy pages.
+
+## Vercel
+
+The production deploy includes a serverless `POST /api/render` function and rewrites `/render` back to the SPA entrypoint so shared reader URLs do not return Vercel `NOT_FOUND`.
