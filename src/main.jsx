@@ -118,7 +118,6 @@ function App() {
                 </button>
               </div>
             </header>
-            {page.excerpt ? <p className="excerpt">{page.excerpt}</p> : null}
             <div className="reader-content" dangerouslySetInnerHTML={{ __html: page.contentHtml }} />
           </article>
         ) : (

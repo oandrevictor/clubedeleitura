@@ -2,6 +2,14 @@
   color-scheme: dark;
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --bg: #0f1115;
+  --panel: #171b22;
+  --paper: #f3f0e8;
+  --muted: #c7c3b7;
+  --gold: #f6d99f;
+  --moss: #9eb384;
+  --moon: #9ec5ff;
+  --rose: #d9a4a7;
   background: #0f1115;
   color: #f3f0e8;
 }
@@ -15,6 +23,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
+    linear-gradient(115deg, rgba(246, 217, 159, 0.06) 0 1px, transparent 1px 140px),
+    linear-gradient(245deg, rgba(158, 197, 255, 0.05) 0 1px, transparent 1px 160px),
     linear-gradient(180deg, rgba(36, 41, 52, 0.7), rgba(15, 17, 21, 0) 280px),
     #0f1115;
 }
@@ -50,16 +60,41 @@ a {
 }
 
 .reader-panel {
+  position: relative;
   width: min(1120px, 100%);
   margin: 0 auto;
 }
 
 .url-bar {
+  position: relative;
   display: grid;
   gap: 18px;
   margin-bottom: 28px;
-  padding-bottom: 22px;
+  padding: 18px 0 22px;
   border-bottom: 1px solid rgba(243, 240, 232, 0.14);
+}
+
+.url-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: min(220px, 42vw);
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold), var(--rose), var(--moon));
+}
+
+.url-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 28px;
+  height: 46px;
+  background: linear-gradient(180deg, #6f557f, #3b4669);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+  opacity: 0.9;
 }
 
 .title-block {
@@ -71,15 +106,18 @@ a {
 
 .title-block h1 {
   margin: 0;
+  color: #fffaf0;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 1.2rem;
-  line-height: 1.2;
+  font-weight: 700;
+  line-height: 1.15;
   letter-spacing: 0;
   max-width: 760px;
 }
 
 .title-block p {
   margin: 0 0 8px;
-  color: #c7c3b7;
+  color: #d9cfbd;
   font-size: 1.05rem;
   max-width: 260px;
 }
@@ -116,11 +154,30 @@ a {
 }
 
 .empty-state {
+  position: relative;
   display: grid;
   place-items: center;
   min-height: 52vh;
   text-align: center;
   color: #c7c3b7;
+}
+
+.empty-state::before {
+  content: "";
+  display: block;
+  width: min(180px, 42vw);
+  aspect-ratio: 2.2;
+  margin-bottom: 26px;
+  border: 1px solid rgba(246, 217, 159, 0.28);
+  border-radius: 8px 8px 18px 18px;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 1px), rgba(246, 217, 159, 0.42) 50%, transparent calc(50% + 1px)),
+    linear-gradient(105deg, rgba(243, 240, 232, 0.12), rgba(158, 197, 255, 0.08)),
+    #171b22;
+  box-shadow:
+    inset 18px 0 24px rgba(255, 255, 255, 0.03),
+    inset -18px 0 24px rgba(255, 255, 255, 0.03),
+    0 18px 42px rgba(0, 0, 0, 0.26);
 }
 
 .empty-state h2 {
@@ -139,8 +196,20 @@ a {
 }
 
 .reader {
+  position: relative;
   width: min(860px, 100%);
   margin: 0 auto;
+}
+
+.reader::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 0;
+  left: -28px;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--gold), rgba(217, 164, 167, 0.5), transparent);
 }
 
 .reader-header {
@@ -167,6 +236,7 @@ a {
 .reader h2 {
   margin: 8px 0 12px;
   color: #fffaf0;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(2.2rem, 7vw, 4.8rem);
   line-height: 1;
   letter-spacing: 0;
@@ -217,20 +287,20 @@ a {
   font-size: 0.92rem;
 }
 
-.excerpt {
-  margin: 0 0 28px;
-  border-left: 4px solid #9eb384;
-  padding-left: 18px;
-  color: #d8d3c6;
-  font-size: 1.25rem;
-  line-height: 1.55;
-}
-
 .reader-content {
   color: #f3f0e8;
   font-size: var(--reader-font-size);
   line-height: 1.72;
   overflow-wrap: break-word;
+}
+
+.reader-content > p:first-of-type::first-letter {
+  float: left;
+  margin: 0.12em 0.12em 0 0;
+  color: var(--gold);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 3.1em;
+  line-height: 0.82;
 }
 
 .reader-content > *:first-child {
@@ -341,5 +411,10 @@ a {
     position: static;
     width: 100%;
     overflow-x: auto;
+  }
+
+  .url-bar::after,
+  .reader::before {
+    display: none;
   }
 }
