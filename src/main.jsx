@@ -1,8 +1,21 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
 
 const FONT_STEPS = [18, 20, 22, 24, 28, 32];
+const THEMES = [
+  { id: "candle", label: "Vela", swatch: "#f6d99f", description: "contraste escuro quente" },
+  { id: "mist", label: "Bruma", swatch: "#a9b0b5", description: "contraste escuro suave" },
+  { id: "dusk", label: "Crepúsculo", swatch: "#c9a56d", description: "contraste escuro médio" },
+  { id: "graphite", label: "Grafite", swatch: "#8f969f", description: "contraste escuro nítido" },
+  { id: "plum", label: "Ameixa", swatch: "#c1a3d9", description: "contraste escuro colorido" },
+  { id: "midnight", label: "Noite", swatch: "#9ec5ff", description: "contraste escuro forte" },
+  { id: "forest", label: "Bosque", swatch: "#9eb384", description: "contraste verde escuro" },
+  { id: "parchment", label: "Papel", swatch: "#d0a66f", description: "contraste claro" },
+  { id: "cream", label: "Creme", swatch: "#ead7ad", description: "papel claro suave" },
+  { id: "linen", label: "Linho", swatch: "#d7d2bf", description: "papel neutro frio" },
+  { id: "blush-paper", label: "Rosa", swatch: "#e6c1bb", description: "papel rosado suave" },
+];
 
 function getInitialUrl() {
   const params = new URLSearchParams(window.location.search);
@@ -13,12 +26,18 @@ function getReaderPath(url) {
   return `/render?url=${encodeURIComponent(url)}`;
 }
 
+function getInitialTheme() {
+  const storedTheme = window.localStorage.getItem("reader-theme");
+  return THEMES.some((theme) => theme.id === storedTheme) ? storedTheme : "candle";
+}
+
 function App() {
   const [url, setUrl] = useState(getInitialUrl);
   const [page, setPage] = useState(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [fontIndex, setFontIndex] = useState(2);
+  const [theme, setTheme] = useState(getInitialTheme);
 
   const fontSize = FONT_STEPS[fontIndex];
   const canShrink = fontIndex > 0;
@@ -31,6 +50,10 @@ function App() {
       return page.siteName || "";
     }
   }, [page]);
+
+  useEffect(() => {
+    window.localStorage.setItem("reader-theme", theme);
+  }, [theme]);
 
   async function renderPage(event) {
     event.preventDefault();
@@ -70,12 +93,29 @@ function App() {
   }
 
   return (
-    <main className="app-shell">
+    <main className="app-shell" data-theme={theme}>
       <section className="reader-panel" aria-labelledby="app-title">
         <form className="url-bar" onSubmit={renderPage}>
           <div className="title-block">
             <h1 id="app-title">Clube de Leitura</h1>
             <p>App desenvolvido especialmente para o Clube de Leitura da Branca.</p>
+          </div>
+          <div className="theme-picker" aria-label="Opções de cor">
+            {THEMES.map((themeOption) => (
+              <button
+                key={themeOption.id}
+                type="button"
+                className={theme === themeOption.id ? "theme-option active" : "theme-option"}
+                style={{ "--theme-swatch": themeOption.swatch }}
+                aria-pressed={theme === themeOption.id}
+                aria-label={`${themeOption.label}: ${themeOption.description}`}
+                title={`${themeOption.label}: ${themeOption.description}`}
+                onClick={() => setTheme(themeOption.id)}
+              >
+                <span aria-hidden="true" />
+                {themeOption.label}
+              </button>
+            ))}
           </div>
           <div className="url-row">
             <label className="sr-only" htmlFor="website-url">
